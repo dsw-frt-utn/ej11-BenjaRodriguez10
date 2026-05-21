@@ -1,5 +1,10 @@
 ﻿namespace Dsw2026Ej11.Collections;
 
+using Dsw2026Ej11.Domain;
+using global::Dsw2026Ej11.Domain;
+using System.Collections.Generic;
+using System.Linq;
+
 /*
  * Para cada punto crear un método que permita:
  * 1. Obtener el primer libro (GetPrimero)
@@ -14,6 +19,65 @@
  * 10. Obtener los libros ordenados por título de forma descendente
  * En todos los casos debe aplicarse LINQ
  */
+
 public class CasoLinq
 {
+    private List<Libro> libros;
+
+    public CasoLinq()
+    {
+        libros = Libro.CrearLista();
+    }
+
+    public Libro GetPrimero()
+    {
+        return libros.FirstOrDefault();
+    }
+
+    public Libro GetUltimo()
+    {
+        return libros.LastOrDefault();
+    }
+
+    public decimal GetTotalPrecios()
+    {
+        return libros.Sum(l => l.Precio);
+    }
+
+    public decimal GetPromedioPrecios()
+    {
+        return libros.Average(l => l.Precio);
+    }
+
+    public List<Libro> GetListById()
+    {
+        return libros.Where(l => l.Id > 15).ToList();
+    }
+
+    public List<string> GetLibros()
+    {
+        return libros.Select(l => $"{l.Titulo} - {l.Precio:C}").ToList();
+    }
+
+    public Libro GetMayorPrecio()
+    {
+        return libros.OrderByDescending(l => l.Precio).FirstOrDefault();
+    }
+
+    public Libro GetMenorPrecio()
+    {
+        return libros.OrderBy(l => l.Precio).FirstOrDefault();
+    }
+
+    public List<Libro> GetMayorPromedio()
+    {
+        decimal promedio = GetPromedioPrecios();
+
+        return libros.Where(l => l.Precio > promedio).ToList();
+    }
+
+    public List<Libro> GetLibrosOrdenadosPorTituloDesc()
+    {
+        return libros.OrderByDescending(l => l.Titulo).ToList();
+    }
 }
